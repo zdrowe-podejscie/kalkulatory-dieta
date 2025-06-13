@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Zapotrzebowanie Kaloryczne</title>
-  
-<style>
+  <style>
   body {
     margin: 0;
     font-family: sans-serif;
@@ -33,6 +32,7 @@
     margin: 10px 0;
     padding: 10px;
     width: 100%;
+    box-sizing: border-box;
   }
   .result {
     margin-top: 20px;
@@ -47,10 +47,9 @@
     font-weight: bold;
   }
 </style>
-
 </head>
 <body>
-  
+
 <header style="background-color: #d0e68b; padding: 10px; text-align: center;">
   <nav>
     <a href="bmi.html">BMI</a> |
@@ -64,43 +63,68 @@
   </nav>
 </header>
 
-  <div class="main">
-    <div class="left">
-      
-<h2>Co to jest zapotrzebowanie kaloryczne?</h2>
-<p>Na podstawie swojego CPM możesz oszacować ile kalorii spożywać, aby schudnąć, utrzymać wagę lub przybrać na wadze.</p>
-
-    </div>
-    <div class="right">
-      <h1>Zapotrzebowanie Kaloryczne</h1>
-      
-<input type="number" id="cpm" placeholder="Twoje CPM (kcal)">
-<button onclick="calculateCalories()">Oblicz</button>
-<div class="result" id="result"></div>
-
-    </div>
+<div class="main">
+  <div class="left">
+    <h2>Co to jest zapotrzebowanie kaloryczne?</h2>
+    <p>Na podstawie swojego CPM możesz oszacować ile kalorii spożywać, aby schudnąć, utrzymać wagę lub przybrać na wadze.</p>
+    <h2>Co to jest CPM?</h2>
+    <p>CPM (Całkowita Przemiana Materii) lub TDEE to ilość kalorii, jaką zużywasz dziennie, uwzględniając aktywność fizyczną.</p>
   </div>
-  
+  <div class="right">
+    <h1>Oblicz CPM i zapotrzebowanie</h1>
+    <input type="number" id="weight" placeholder="Waga (kg)">
+    <input type="number" id="height" placeholder="Wzrost (cm)">
+    <input type="number" id="age" placeholder="Wiek">
+    <select id="gender">
+      <option value="male">Mężczyzna</option>
+      <option value="female">Kobieta</option>
+    </select>
+    <select id="activity">
+      <option value="1.2">Brak aktywności</option>
+      <option value="1.375">Lekka aktywność</option>
+      <option value="1.55">Średnia aktywność</option>
+      <option value="1.725">Duża aktywność</option>
+      <option value="1.9">Bardzo duża aktywność</option>
+    </select>
+    <button onclick="calculateEverything()">Oblicz</button>
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
 <footer style="background-color: #d0e68b; padding: 10px; text-align: center; margin-top: 20px;">
   <p>© 2025 Kalkulatory dietetyczne</p>
 </footer>
 
-  <script>
-function calculateCalories() {
-  const cpm = parseFloat(document.getElementById("cpm").value);
-  if (!cpm) {
-    document.getElementById("result").innerText = "Wprowadź swoje CPM.";
+<script>
+function calculateEverything() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const height = parseFloat(document.getElementById("height").value);
+  const age = parseFloat(document.getElementById("age").value);
+  const gender = document.getElementById("gender").value;
+  const activity = parseFloat(document.getElementById("activity").value);
+  if (!weight || !height || !age || !activity) {
+    document.getElementById("result").innerText = "Wprowadź wszystkie dane.";
     return;
   }
+  let bmr;
+  if (gender === "male") {
+    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+  } else {
+    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+  }
+  const cpm = bmr * activity;
   const lose = cpm - 500;
   const maintain = cpm;
   const gain = cpm + 500;
   document.getElementById("result").innerHTML = `
+    Twoje BMR: ${bmr.toFixed(0)} kcal/dzień<br>
+    Twoje CPM: ${cpm.toFixed(0)} kcal/dzień<br><br>
     Aby schudnąć: ${lose.toFixed(0)} kcal/dzień<br>
     Aby utrzymać wagę: ${maintain.toFixed(0)} kcal/dzień<br>
     Aby przytyć: ${gain.toFixed(0)} kcal/dzień
   `;
 }
 </script>
+
 </body>
 </html>

@@ -33,6 +33,7 @@
     margin: 10px 0;
     padding: 10px;
     width: 100%;
+    box-sizing: border-box;
   }
   .result {
     margin-top: 20px;
@@ -70,6 +71,8 @@
 <h2>Co to jest AMR?</h2>
 <p>AMR (Aktywna Przemiana Materii) to ilość kalorii, którą spalasz każdego dnia uwzględniając swoją aktywność fizyczną, oparta na wartości BMR i współczynniku aktywności.</p>
 
+<h2>Co to jest BMR?</h2>
+<p>BMR (Podstawowa Przemiana Materii) to ilość kalorii, jaką organizm potrzebuje w stanie spoczynku, aby podtrzymać podstawowe funkcje życiowe.</p>
     </div>
     <div class="right">
       <h1>Kalkulator AMR</h1>
@@ -84,7 +87,17 @@
 </select>
 <button onclick="calculateAMR()">Oblicz</button>
 <div class="result" id="result"></div>
-
+<h1>Kalkulator BMR</h1>
+      
+<input type="number" id="weight" placeholder="Waga (kg)">
+<input type="number" id="height" placeholder="Wzrost (cm)">
+<input type="number" id="age" placeholder="Wiek">
+<select id="gender">
+  <option value="male">Mężczyzna</option>
+  <option value="female">Kobieta</option>
+</select>
+<button onclick="calculateBMR()">Oblicz</button>
+<div class="result" id="result_bmr"></div>
     </div>
   </div>
   
@@ -103,6 +116,26 @@ function calculateAMR() {
   const amr = bmr * activity;
   document.getElementById("result").innerText = `Twoje AMR wynosi ${amr.toFixed(2)} kcal/dzień.`;
 }
+
+function calculateBMR() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const height = parseFloat(document.getElementById("height").value);
+  const age = parseFloat(document.getElementById("age").value);
+  const gender = document.getElementById("gender").value;
+  if (!weight || !height || !age) {
+    document.getElementById("result_bmr").innerText = "Wprowadź wszystkie dane.";
+    return;
+  }
+  let bmr;
+  if (gender === "male") {
+    bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+  } else {
+    bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+  }
+  document.getElementById("result_bmr").innerText = `Twoje BMR wynosi ${bmr.toFixed(2)} kcal/dzień.`;
+  document.getElementById("bmr").value = bmr.toFixed(2); // automatyczne wstawienie BMR
+}
+
 </script>
 </body>
 </html>
