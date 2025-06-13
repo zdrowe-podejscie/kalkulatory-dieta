@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Zapotrzebowanie Kaloryczne</title>
+  
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #fefefe;
+  }
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 80vh;
+    padding: 20px;
+  }
+  .left, .right {
+    flex: 1;
+    padding: 20px;
+  }
+  .left {
+    background-color: #ecf5bd;
+  }
+  .right {
+    background-color: #111908;
+    color: #fff;
+  }
+  .right input, .right select, .right button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+  }
+  .result {
+    margin-top: 20px;
+    background-color: #2a3820;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  nav a {
+    margin: 0 10px;
+    color: #111908;
+    text-decoration: none;
+    font-weight: bold;
+  }
+</style>
+
+</head>
+<body>
+  
+<header style="background-color: #d0e68b; padding: 10px; text-align: center;">
+  <nav>
+    <a href="bmi.html">BMI</a> |
+    <a href="bmr.html">BMR</a> |
+    <a href="cpm.html">CPM</a> |
+    <a href="amr.html">AMR</a> |
+    <a href="ideal_weight.html">Waga idealna</a> |
+    <a href="calorie_needs.html">Kalorie</a> |
+    <a href="macro_split.html">Makroskładniki</a> |
+    <a href="#">Twój link</a>
+  </nav>
+</header>
+
+  <div class="main">
+    <div class="left">
+      
+<h2>Co to jest zapotrzebowanie kaloryczne?</h2>
+<p>Na podstawie swojego CPM możesz oszacować ile kalorii spożywać, aby schudnąć, utrzymać wagę lub przybrać na wadze.</p>
+
+    </div>
+    <div class="right">
+      <h1>Zapotrzebowanie Kaloryczne</h1>
+      
+<input type="number" id="cpm" placeholder="Twoje CPM (kcal)">
+<button onclick="calculateCalories()">Oblicz</button>
+<div class="result" id="result"></div>
+
+    </div>
+  </div>
+  
+<footer style="background-color: #d0e68b; padding: 10px; text-align: center; margin-top: 20px;">
+  <p>© 2025 Kalkulatory dietetyczne</p>
+</footer>
+
+  <script>
+function calculateCalories() {
+  const cpm = parseFloat(document.getElementById("cpm").value);
+  if (!cpm) {
+    document.getElementById("result").innerText = "Wprowadź swoje CPM.";
+    return;
+  }
+  const lose = cpm - 500;
+  const maintain = cpm;
+  const gain = cpm + 500;
+  document.getElementById("result").innerHTML = `
+    Aby schudnąć: ${lose.toFixed(0)} kcal/dzień<br>
+    Aby utrzymać wagę: ${maintain.toFixed(0)} kcal/dzień<br>
+    Aby przytyć: ${gain.toFixed(0)} kcal/dzień
+  `;
+}
+</script>
+</body>
+</html>

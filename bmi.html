@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator BMI</title>
+  
+<style>
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #fefefe;
+  }
+  .main {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 80vh;
+    padding: 20px;
+  }
+  .left, .right {
+    flex: 1;
+    padding: 20px;
+  }
+  .left {
+    background-color: #ecf5bd;
+  }
+  .right {
+    background-color: #111908;
+    color: #fff;
+  }
+  .right input, .right select, .right button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+  }
+  .result {
+    margin-top: 20px;
+    background-color: #2a3820;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  nav a {
+    margin: 0 10px;
+    color: #111908;
+    text-decoration: none;
+    font-weight: bold;
+  }
+</style>
+
+</head>
+<body>
+  
+<header style="background-color: #d0e68b; padding: 10px; text-align: center;">
+  <nav>
+    <a href="bmi.html">BMI</a> |
+    <a href="bmr.html">BMR</a> |
+    <a href="cpm.html">CPM</a> |
+    <a href="amr.html">AMR</a> |
+    <a href="ideal_weight.html">Waga idealna</a> |
+    <a href="calorie_needs.html">Kalorie</a> |
+    <a href="macro_split.html">Makroskładniki</a> |
+    <a href="#">Twój link</a>
+  </nav>
+</header>
+
+  <div class="main">
+    <div class="left">
+      
+<h2>Co to jest BMI?</h2>
+<p>BMI (Wskaźnik Masy Ciała) to wskaźnik, który pozwala określić, czy Twoja masa ciała jest prawidłowa względem wzrostu.</p>
+<ul>
+  <li><strong>&lt; 18.5:</strong> Niedowaga</li>
+  <li><strong>18.5–24.9:</strong> Waga prawidłowa</li>
+  <li><strong>25–29.9:</strong> Nadwaga</li>
+  <li><strong>&gt;= 30:</strong> Otyłość</li>
+</ul>
+
+    </div>
+    <div class="right">
+      <h1>Kalkulator BMI</h1>
+      
+<input type="number" id="weight" placeholder="Waga (kg)">
+<input type="number" id="height" placeholder="Wzrost (cm)">
+<button onclick="calculateBMI()">Oblicz</button>
+<div class="result" id="result"></div>
+
+    </div>
+  </div>
+  
+<footer style="background-color: #d0e68b; padding: 10px; text-align: center; margin-top: 20px;">
+  <p>© 2025 Kalkulatory dietetyczne</p>
+</footer>
+
+  <script>
+function calculateBMI() {
+  const weight = parseFloat(document.getElementById("weight").value);
+  const height = parseFloat(document.getElementById("height").value) / 100;
+  if (!weight || !height) {
+    document.getElementById("result").innerText = "Wprowadź poprawne dane.";
+    return;
+  }
+  const bmi = (weight / (height * height)).toFixed(2);
+  let message = `Twoje BMI wynosi ${bmi}.`;
+  if (bmi < 18.5) message += " Niedowaga.";
+  else if (bmi < 24.9) message += " Waga prawidłowa.";
+  else if (bmi < 29.9) message += " Nadwaga.";
+  else message += " Otyłość.";
+  document.getElementById("result").innerText = message;
+}
+</script>
+</body>
+</html>
