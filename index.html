@@ -2,89 +2,252 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Strona Główna – Kalkulatory Dietetyczne</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulatory Dietetyczne</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --primary-color: #4a8c2a;
+      --primary-light: #6bbd46;
+      --primary-dark: #2a5c14;
+      --secondary-color: #f8f9fa;
+      --dark-color: #212529;
+      --light-color: #ffffff;
+      --accent-color: #ffc107;
+      --border-radius: 10px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: sans-serif;
-      background-color: #fefefe;
+      padding: 0;
     }
-    header, footer {
-      background-color: #d0e68b;
-      padding: 10px;
-      text-align: center;
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: var(--dark-color);
+      background-color: var(--secondary-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
-    nav a {
-      margin: 0 10px;
-      color: #111908;
-      text-decoration: none;
-      font-weight: bold;
+
+    header {
+      background-color: var(--light-color);
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    .main {
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
       display: flex;
       flex-wrap: wrap;
-      min-height: 80vh;
-      padding: 20px;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
     }
-    .left, .right {
+
+    nav a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: var(--primary-color);
+      color: var(--light-color);
+    }
+
+    .main {
       flex: 1;
-      padding: 20px;
+      max-width: 1200px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
     }
-    .left {
-      background-color: #ecf5bd;
+
+    .card {
+      background-color: var(--light-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
     }
-    .right {
-      background-color: #111908;
-      color: #fff;
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
-    ul {
-      padding-left: 20px;
+
+    .info-card {
+      padding: 2rem;
     }
-    ul li a {
-      color: #111908;
-      text-decoration: underline;
+
+    .info-card h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    .info-card ul {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .info-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    .calculator-card {
+      padding: 2rem;
+      background-color: var(--primary-dark);
+      color: var(--light-color);
+    }
+
+    .calculator-card h1 {
+      color: var(--light-color);
+      margin-bottom: 1.5rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input, select {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background-color: var(--light-color);
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: var(--dark-color);
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #ffab00;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: var(--border-radius);
+    }
+
+    .result p {
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+      color: var(--accent-color);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      background-color: var(--primary-dark);
+      color: var(--light-color);
+      text-align: center;
+      padding: 2rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      nav a {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .main {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
-
+  
 <header>
   <nav>
-    <a href="bmi.html">BMI</a> |
-    <a href="bmr.html">BMR</a> |
-    <a href="cpm.html">CPM</a> |
-    <a href="amr.html">AMR</a> |
-    <a href="ideal_weight.html">Waga idealna</a> |
-    <a href="calorie_needs.html">Kalorie</a> |
-    <a href="macro_split.html">Makroskładniki</a> |
-    <a href="https://zdrowepodejscie.blog/calculators/">Powrót do strony głównej</a>
+    <a href="bmi.html">BMI</a>
+    <a href="bmr.html">BMR</a>
+    <a href="cpm.html">CPM</a>
+    <a href="amr.html">AMR</a>
+    <a href="ideal_weight.html">Waga idealna</a>
+    <a href="calorie_needs.html">Kalorie</a>
+    <a href="macro_split.html">Makroskładniki</a>
+    <a href="https:zdrowepodejscie.blog/calculators/">Strona główna</a>
   </nav>
 </header>
 
 <div class="main">
-  <div class="left">
-    <h2>Witaj!</h2>
-    <p>Na tej stronie znajdziesz zestaw przydatnych kalkulatorów wspierających zdrowy styl życia i świadome odżywianie.</p>
-    <p>Każdy kalkulator ma dokładny opis, dzięki czemu dowiesz się, do czego służy oraz jak poprawnie z niego korzystać.</p>
+  <div class="card info-card">
+    <h2>Witaj w Kalkulatorach Dietetycznych</h2>
+    <p>Wybierz odpowiedni kalkulator z menu nawigacyjnego, aby obliczyć:</p>
     <ul>
-      <li><a href="bmi.html"><strong>BMI</strong></a> – wskaźnik masy ciała</li>
-      <li><a href="bmr.html"><strong>BMR</strong></a> – podstawowa przemiana materii</li>
-      <li><a href="cpm.html"><strong>CPM</strong></a> – całkowita przemiana materii</li>
-      <li><a href="amr.html"><strong>AMR</strong></a> – aktywna przemiana materii</li>
-      <li><a href="ideal_weight.html"><strong>Waga idealna</strong></a> – optymalna waga wg wzrostu i płci</li>
-      <li><a href="calorie_needs.html"><strong>Zapotrzebowanie kaloryczne</strong></a> – dobór kalorii do celu</li>
-      <li><a href="macro_split.html"><strong>Makroskładniki</strong></a> – podział kalorii na białko, tłuszcze i węglowodany</li>
+      <li>Wskaźnik masy ciała (BMI)</li>
+      <li>Podstawową przemianę materii (BMR)</li>
+      <li>Całkowitą przemianę materii (CPM)</li>
+      <li>Aktywną przemianę materii (AMR)</li>
+      <li>Idealną wagę</li>
+      <li>Zapotrzebowanie kaloryczne</li>
+      <li>Rozkład makroskładników</li>
     </ul>
-    <p>Wybierz kalkulator z menu powyżej i zacznij planować swoją dietę!</p>
   </div>
-  <div class="right">
-    <h2>Dlaczego warto?</h2>
-    <p>Nasze narzędzia pomogą Ci zrozumieć potrzeby Twojego ciała, zoptymalizować dietę i skutecznie realizować cele zdrowotne lub sylwetkowe.</p>
+  
+  <div class="card calculator-card">
+    <h1>Wybierz kalkulator</h1>
+    <p>Skorzystaj z menu nawigacyjnego u góry strony, aby przejść do interesującego Cię kalkulatora.</p>
   </div>
 </div>
-
+  
 <footer>
-  <p>© 2025 Kalkulatory dietetyczne</p>
+  <p>© 2025 Kalkulatory Dietetyczne | Wszelkie prawa zastrzeżone</p>
 </footer>
 
 </body>

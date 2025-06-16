@@ -2,141 +2,313 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Kalkulator CPM / TDEE</title>
-  
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background-color: #fefefe;
-  }
-  .main {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 80vh;
-    padding: 20px;
-  }
-  .left, .right {
-    flex: 1;
-    padding: 20px;
-  }
-  .left {
-    background-color: #ecf5bd;
-  }
-  .right {
-    background-color: #111908;
-    color: #fff;
-  }
-  .right input, .right select, .right button {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .result {
-    margin-top: 20px;
-    background-color: #2a3820;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  nav a {
-    margin: 0 10px;
-    color: #111908;
-    text-decoration: none;
-    font-weight: bold;
-  }
-</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator CPM</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4a8c2a;
+      --primary-light: #6bbd46;
+      --primary-dark: #2a5c14;
+      --secondary-color: #f8f9fa;
+      --dark-color: #212529;
+      --light-color: #ffffff;
+      --accent-color: #ffc107;
+      --border-radius: 10px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: var(--dark-color);
+      background-color: var(--secondary-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--light-color);
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: var(--primary-color);
+      color: var(--light-color);
+    }
+
+    .main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background-color: var(--light-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-card {
+      padding: 2rem;
+    }
+
+    .info-card h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    .info-card ul {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .info-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    .calculator-card {
+      padding: 2rem;
+      background-color: var(--primary-dark);
+      color: var(--light-color);
+    }
+
+    .calculator-card h1 {
+      color: var(--light-color);
+      margin-bottom: 1.5rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input, select {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background-color: var(--light-color);
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: var(--dark-color);
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #ffab00;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: var(--border-radius);
+    }
+
+    .result p {
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+      color: var(--accent-color);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      background-color: var(--primary-dark);
+      color: var(--light-color);
+      text-align: center;
+      padding: 2rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      nav a {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   
-<header style="background-color: #d0e68b; padding: 10px; text-align: center;">
-  
-
-<nav>
-    <a href="bmi.html">BMI</a> |
-    <a href="bmr.html">BMR</a> |
-    <a href="cpm.html">CPM</a> |
-    <a href="amr.html">AMR</a> |
-    <a href="ideal_weight.html">Waga idealna</a> |
-    <a href="calorie_needs.html">Kalorie</a> |
-    <a href="macro_split.html">Makroskładniki</a> |
-    <a href="https://zdrowepodejscie.blog/calculators/">Powrót do strony głównej</a>
-</nav>
-
-
+<header>
+  <nav>
+    <a href="bmi.html">BMI</a>
+    <a href="bmr.html">BMR</a>
+    <a href="cpm.html">CPM</a>
+    <a href="amr.html">AMR</a>
+    <a href="ideal_weight.html">Waga idealna</a>
+    <a href="calorie_needs.html">Kalorie</a>
+    <a href="macro_split.html">Makroskładniki</a>
+    <a href="https:zdrowepodejscie.blog/calculators/">Strona główna</a>
+  </nav>
 </header>
 
-  <div class="main">
-    <div class="left">
-      
-<h2>Co to jest CPM?</h2>
-<p>CPM (Całkowita Przemiana Materii) lub TDEE to ilość kalorii, jaką zużywasz dziennie, uwzględniając aktywność fizyczną.</p>
-<h2>Co to jest BMR?</h2>
-<p>BMR (Podstawowa Przemiana Materii) to ilość kalorii, jaką organizm potrzebuje w stanie spoczynku, aby podtrzymać podstawowe funkcje życiowe.</p>
-
-    </div>
-    <div class="right">
-      <h1>Kalkulator CPM / TDEE</h1>
-      
-<input type="number" id="bmr" placeholder="Twoje BMR (kcal)">
-<select id="activity">
-  <option value="1.2">Brak aktywności</option>
-  <option value="1.375">Lekka aktywność</option>
-  <option value="1.55">Średnia aktywność</option>
-  <option value="1.725">Duża aktywność</option>
-  <option value="1.9">Bardzo duża aktywność</option>
-</select>
-<button onclick="calculateCPM()">Oblicz</button>
-<div class="result" id="result"></div>
-
-<h1>Kalkulator BMR</h1>
-<input type="number" id="weight" placeholder="Waga (kg)">
-<input type="number" id="height" placeholder="Wzrost (cm)">
-<input type="number" id="age" placeholder="Wiek">
-<select id="gender">
-  <option value="male">Mężczyzna</option>
-  <option value="female">Kobieta</option>
-</select>
-<button onclick="calculateBMR()">Oblicz</button>
-<div class="result" id="result_bmr"></div>
-    </div>
+<div class="main">
+  <div class="card info-card">
+    <h2>Co to jest CPM?</h2>
+    <p>CPM (Całkowita Przemiana Materii) lub TDEE (Total Daily Energy Expenditure) to ilość kalorii, jaką zużywasz dziennie, uwzględniając aktywność fizyczną.</p>
+    <p>CPM oblicza się mnożąc BMR przez współczynnik aktywności fizycznej.</p>
+    <h3>Poziomy aktywności:</h3>
+    <ul>
+      <li><strong>Brak aktywności</strong> (1.2) - praca siedząca, brak ćwiczeń</li>
+      <li><strong>Lekka aktywność</strong> (1.375) - lekkie ćwiczenia 1-3 dni w tygodniu</li>
+      <li><strong>Średnia aktywność</strong> (1.55) - umiarkowane ćwiczenia 3-5 dni w tygodniu</li>
+      <li><strong>Duża aktywność</strong> (1.725) - intensywne ćwiczenia 6-7 dni w tygodniu</li>
+      <li><strong>Bardzo duża aktywność</strong> (1.9) - bardzo intensywne codzienne ćwiczenia + praca fizyczna</li>
+    </ul>
   </div>
   
-<footer style="background-color: #d0e68b; padding: 10px; text-align: center; margin-top: 20px;">
-  <p>© 2025 Kalkulatory dietetyczne</p>
+  <div class="card calculator-card">
+    <h1>Kalkulator CPM</h1>
+    <div class="form-group">
+      <label for="weight">Waga (kg)</label>
+      <input type="number" id="weight" placeholder="Wprowadź wagę">
+    </div>
+    <div class="form-group">
+      <label for="height">Wzrost (cm)</label>
+      <input type="number" id="height" placeholder="Wprowadź wzrost">
+    </div>
+    <div class="form-group">
+      <label for="age">Wiek</label>
+      <input type="number" id="age" placeholder="Wprowadź wiek">
+    </div>
+    <div class="form-group">
+      <label for="gender">Płeć</label>
+      <select id="gender">
+        <option value="male">Mężczyzna</option>
+        <option value="female">Kobieta</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="activity">Poziom aktywności</label>
+      <select id="activity">
+        <option value="1.2">Brak aktywności</option>
+        <option value="1.375">Lekka aktywność</option>
+        <option value="1.55">Średnia aktywność</option>
+        <option value="1.725">Duża aktywność</option>
+        <option value="1.9">Bardzo duża aktywność</option>
+      </select>
+    </div>
+    <button onclick="calculateCPM()">Oblicz CPM</button>
+    <div class="result" id="result"></div>
+  </div>
+</div>
+  
+<footer>
+  <p>© 2025 Kalkulatory Dietetyczne | Wszelkie prawa zastrzeżone</p>
 </footer>
 
 <script>
 function calculateCPM() {
-  const bmr = parseFloat(document.getElementById("bmr").value);
-  const activity = parseFloat(document.getElementById("activity").value);
-  if (!bmr) {
-    document.getElementById("result").innerText = "Wprowadź swoje BMR.";
-    return;
-  }
-  const cpm = bmr * activity;
-  document.getElementById("result").innerText = `Twoje CPM wynosi ${cpm.toFixed(2)} kcal/dzień.`;
-}
-
-function calculateBMR() {
   const weight = parseFloat(document.getElementById("weight").value);
   const height = parseFloat(document.getElementById("height").value);
   const age = parseFloat(document.getElementById("age").value);
   const gender = document.getElementById("gender").value;
-  if (!weight || !height || !age) {
-    document.getElementById("result_bmr").innerText = "Wprowadź wszystkie dane.";
+  const activity = parseFloat(document.getElementById("activity").value);
+  
+  if (!weight || !height || !age || weight <= 0 || height <= 0 || age <= 0) {
+    document.getElementById("result").innerHTML = '<p class="highlight">Wprowadź poprawne dane.</p>';
     return;
   }
+  
+  // Oblicz BMR
   let bmr;
   if (gender === "male") {
     bmr = 10 * weight + 6.25 * height - 5 * age + 5;
   } else {
     bmr = 10 * weight + 6.25 * height - 5 * age - 161;
   }
-  document.getElementById("result_bmr").innerText = `Twoje BMR wynosi ${bmr.toFixed(2)} kcal/dzień.`;
-  document.getElementById("bmr").value = bmr.toFixed(2); // Wstawienie BMR do pola wyżej
+  
+  // Oblicz CPM
+  const cpm = bmr * activity;
+  
+  document.getElementById("result").innerHTML = `
+    <p>Twoje BMR: <span class="highlight">${bmr.toFixed(0)} kcal/dzień</span></p>
+    <p>Twoje CPM: <span class="highlight">${cpm.toFixed(0)} kcal/dzień</span></p>
+    <p>To jest Twoje dzienne zapotrzebowanie kaloryczne przy obecnym poziomie aktywności.</p>
+  `;
 }
 </script>
 </body>

@@ -1,109 +1,326 @@
-
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rozkład Makroskładników</title>
-  
-<style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background-color: #fefefe;
-  }
-  .main {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 80vh;
-    padding: 20px;
-  }
-  .left, .right {
-    flex: 1;
-    padding: 20px;
-  }
-  .left {
-    background-color: #ecf5bd;
-  }
-  .right {
-    background-color: #111908;
-    color: #fff;
-  }
-  .right input, .right select, .right button {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .result {
-    margin-top: 20px;
-    background-color: #2a3820;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  nav a {
-    margin: 0 10px;
-    color: #111908;
-    text-decoration: none;
-    font-weight: bold;
-  }
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4a8c2a;
+      --primary-light: #6bbd46;
+      --primary-dark: #2a5c14;
+      --secondary-color: #f8f9fa;
+      --dark-color: #212529;
+      --light-color: #ffffff;
+      --accent-color: #ffc107;
+      --border-radius: 10px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: var(--dark-color);
+      background-color: var(--secondary-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--light-color);
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    nav a {
+      color: var(--primary-dark);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    nav a:hover {
+      background-color: var(--primary-color);
+      color: var(--light-color);
+    }
+
+    .main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background-color: var(--light-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-card {
+      padding: 2rem;
+    }
+
+    .info-card h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-family: 'Roboto Condensed', sans-serif;
+    }
+
+    .info-card ul {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    .info-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    .calculator-card {
+      padding: 2rem;
+      background-color: var(--primary-dark);
+      color: var(--light-color);
+    }
+
+    .calculator-card h1 {
+      color: var(--light-color);
+      margin-bottom: 1.5rem;
+      font-family: 'Roboto Condensed', sans-serif;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    input, select {
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      background-color: var(--light-color);
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: var(--dark-color);
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #ffab00;
+      transform: translateY(-2px);
+    }
+
+    .result {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: var(--border-radius);
+    }
+
+    .result p {
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+      color: var(--accent-color);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    footer {
+      background-color: var(--primary-dark);
+      color: var(--light-color);
+      text-align: center;
+      padding: 2rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      nav a {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .main {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   
-<header style="background-color: #d0e68b; padding: 10px; text-align: center;">
-  
-
-<nav>
-    <a href="bmi.html">BMI</a> |
-    <a href="bmr.html">BMR</a> |
-    <a href="cpm.html">CPM</a> |
-    <a href="amr.html">AMR</a> |
-    <a href="ideal_weight.html">Waga idealna</a> |
-    <a href="calorie_needs.html">Kalorie</a> |
-    <a href="macro_split.html">Makroskładniki</a> |
-    <a href="https://zdrowepodejscie.blog/calculators/">Powrót do strony głównej</a>
-</nav>
-
-
+<header>
+  <nav>
+    <a href="bmi.html">BMI</a>
+    <a href="bmr.html">BMR</a>
+    <a href="cpm.html">CPM</a>
+    <a href="amr.html">AMR</a>
+    <a href="ideal_weight.html">Waga idealna</a>
+    <a href="calorie_needs.html">Kalorie</a>
+    <a href="macro_split.html">Makroskładniki</a>
+    <a href="https:zdrowepodejscie.blog/calculators/">Strona główna</a>
+  </nav>
 </header>
 
-  <div class="main">
-    <div class="left">
-      
-<h2>Jak rozdzielić makroskładniki?</h2>
-<p>Oblicz, ile białka, tłuszczy i węglowodanów powinieneś spożywać dziennie na podstawie swojego zapotrzebowania kalorycznego.</p>
-
-    </div>
-    <div class="right">
-      <h1>Rozkład Makroskładników</h1>
-      
-<input type="number" id="calories" placeholder="Kalorie dzienne (kcal)">
-<button onclick="calculateMacros()">Oblicz</button>
-<div class="result" id="result"></div>
-
-    </div>
+<div class="main">
+  <div class="card info-card">
+    <h2>Jak rozdzielić makroskładniki?</h2>
+    <p>Oblicz, ile białka, tłuszczy i węglowodanów powinieneś spożywać dziennie na podstawie swojego zapotrzebowania kalorycznego.</p>
+    <h3>Podstawowe makroskładniki:</h3>
+    <ul>
+      <li><strong>Białko:</strong> 4 kcal/g - budulec mięśni i tkanek</li>
+      <li><strong>Tłuszcze:</strong> 9 kcal/g - niezbędne dla hormonów i wchłaniania witamin</li>
+      <li><strong>Węglowodany:</strong> 4 kcal/g - główne źródło energii</li>
+    </ul>
+    <h3>Typowe rozkłady makroskładników:</h3>
+    <ul>
+      <li><strong>Standardowy:</strong> 30% białka, 25% tłuszczy, 45% węglowodanów</li>
+      <li><strong>Wysokobiałkowy:</strong> 40% białka, 20% tłuszczy, 40% węglowodanów</li>
+      <li><strong>Niskowęglowodanowy:</strong> 30% białka, 40% tłuszczy, 30% węglowodanów</li>
+    </ul>
+    <p>Wybierz odpowiedni profil w kalkulatorze, aby dostosować rozkład do swoich potrzeb.</p>
   </div>
   
-<footer style="background-color: #d0e68b; padding: 10px; text-align: center; margin-top: 20px;">
-  <p>© 2025 Kalkulatory dietetyczne</p>
+  <div class="card calculator-card">
+    <h1>Rozkład Makroskładników</h1>
+    <div class="form-group">
+      <label for="calories">Dzienne zapotrzebowanie kaloryczne (kcal)</label>
+      <input type="number" id="calories" placeholder="Wprowadź ilość kalorii">
+    </div>
+    
+    <h3 style="margin: 1.5rem 0 0.5rem 0; color: var(--accent-color);">Profil makroskładników:</h3>
+    <div class="macro-options">
+      <div class="macro-option">
+        <input type="radio" id="standard" name="macroProfile" value="standard" checked>
+        <label for="standard">Standardowy (30/25/45)</label>
+      </div>
+      <div class="macro-option">
+        <input type="radio" id="highProtein" name="macroProfile" value="highProtein">
+        <label for="highProtein">Wysokobiałkowy (40/20/40)</label>
+      </div>
+      <div class="macro-option">
+        <input type="radio" id="lowCarb" name="macroProfile" value="lowCarb">
+        <label for="lowCarb">Niskowęglowodanowy (30/40/30)</label>
+      </div>
+    </div>
+    
+    <button onclick="calculateMacros()">Oblicz makroskładniki</button>
+    <div class="result" id="result"></div>
+  </div>
+</div>
+  
+<footer>
+  <p>© 2025 Kalkulatory Dietetyczne | Wszelkie prawa zastrzeżone</p>
 </footer>
 
-  <script>
+<script>
 function calculateMacros() {
   const calories = parseFloat(document.getElementById("calories").value);
-  if (!calories) {
-    document.getElementById("result").innerText = "Wprowadź ilość kalorii.";
+  const macroProfile = document.querySelector('input[name="macroProfile"]:checked').value;
+  
+  if (!calories || calories <= 0) {
+    document.getElementById("result").innerHTML = '<p class="highlight">Wprowadź poprawną ilość kalorii.</p>';
     return;
   }
-  const protein = (0.3 * calories) / 4;
-  const fat = (0.25 * calories) / 9;
-  const carbs = (0.45 * calories) / 4;
+  
+  let proteinPct, fatPct, carbsPct;
+  
+  switch(macroProfile) {
+    case "highProtein":
+      proteinPct = 0.4;
+      fatPct = 0.2;
+      carbsPct = 0.4;
+      break;
+    case "lowCarb":
+      proteinPct = 0.3;
+      fatPct = 0.4;
+      carbsPct = 0.3;
+      break;
+    default: // standard
+      proteinPct = 0.3;
+      fatPct = 0.25;
+      carbsPct = 0.45;
+  }
+  
+  const protein = (proteinPct * calories) / 4;
+  const fat = (fatPct * calories) / 9;
+  const carbs = (carbsPct * calories) / 4;
+  
   document.getElementById("result").innerHTML = `
-    Białko: ${protein.toFixed(1)} g<br>
-    Tłuszcze: ${fat.toFixed(1)} g<br>
-    Węglowodany: ${carbs.toFixed(1)} g
+    <h3>Dzienne spożycie makroskładników:</h3>
+    <p><strong>Białko:</strong> <span class="highlight">${protein.toFixed(1)} g</span> (${(proteinPct*100).toFixed(0)}% kalorii)</p>
+    <p><strong>Tłuszcze:</strong> <span class="highlight">${fat.toFixed(1)} g</span> (${(fatPct*100).toFixed(0)}% kalorii)</p>
+    <p><strong>Węglowodany:</strong> <span class="highlight">${carbs.toFixed(1)} g</span> (${(carbsPct*100).toFixed(0)}% kalorii)</p>
+    
+    <h3 style="margin-top: 1.5rem;">Dzienne spożycie w kcal:</h3>
+    <p><strong>Białko:</strong> ${(proteinPct*calories).toFixed(0)} kcal</p>
+    <p><strong>Tłuszcze:</strong> ${(fatPct*calories).toFixed(0)} kcal</p>
+    <p><strong>Węglowodany:</strong> ${(carbsPct*calories).toFixed(0)} kcal</p>
+    
+    <p style="margin-top: 1.5rem;"><small>Wyniki są orientacyjne. Skonsultuj się z dietetykiem dla spersonalizowanych zaleceń.</small></p>
   `;
 }
 </script>
