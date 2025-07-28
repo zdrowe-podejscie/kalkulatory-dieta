@@ -313,36 +313,68 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Nowy styl dla wyświetlania kalorii */
+        /* Nowy styl dla wyświetlania kalorii - WIĘKSZY I CZYTELNIEJSZY */
         .calories-display {
-            display: flex;
-            justify-content: space-around;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
             margin: 1.5rem 0;
             text-align: center;
-            flex-wrap: wrap;
         }
 
         .calories-item {
-            flex: 1;
-            min-width: 100px;
-            padding: 0.5rem;
+            padding: 1.2rem;
+            background-color: var(--avocado-bg);
+            border-radius: 10px;
+            border: 2px solid var(--avocado-light);
+            transition: all 0.3s ease;
+        }
+
+        .calories-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px var(--avocado-shadow);
+        }
+
+        .calories-icon {
+            font-size: 2.5rem;
+            color: var(--avocado-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .calories-label {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
         }
 
         .calories-value {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: var(--avocado-primary);
-            margin-top: 0.3rem;
+            margin: 0.5rem 0;
+        }
+
+        .calories-macro {
+            font-size: 0.9rem;
+            color: var(--avocado-text);
         }
 
         /* Styl dla informacji o korekcie kalorii */
         .calories-adjustment {
             background-color: #e8f5e9;
             border-left: 4px solid #2e7d32;
-            padding: 0.8rem;
-            margin: 1rem 0;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calories-adjustment i {
+            font-size: 1.5rem;
+            color: #2e7d32;
         }
     </style>
 </head>
@@ -588,9 +620,10 @@
                             <span id="adjustmentText">Dla wybranego celu nie zastosowano korekty kalorii</span>
                         </div>
                         
+                        <!-- Sekcja gramatury makroskładników -->
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
                             <div style="text-align: center;">
-                                <div style="font-size: 2rem; color: var(--avocado-primary);">
+                                <div style="font-size: 2.5rem; color: var(--avocado-primary);">
                                     <i class="fas fa-drumstick-bite"></i>
                                 </div>
                                 <div class="result-value" id="proteinValue">0g</div>
@@ -598,7 +631,7 @@
                             </div>
                             
                             <div style="text-align: center;">
-                                <div style="font-size: 2rem; color: var(--avocado-primary);">
+                                <div style="font-size: 2.5rem; color: var(--avocado-primary);">
                                     <i class="fas fa-bacon"></i>
                                 </div>
                                 <div class="result-value" id="fatValue">0g</div>
@@ -606,7 +639,7 @@
                             </div>
                             
                             <div style="text-align: center;">
-                                <div style="font-size: 2rem; color: var(--avocado-primary);">
+                                <div style="font-size: 2.5rem; color: var(--avocado-primary);">
                                     <i class="fas fa-bread-slice"></i>
                                 </div>
                                 <div class="result-value" id="carbsValue">0g</div>
@@ -614,27 +647,43 @@
                             </div>
                         </div>
                         
-                        <!-- Sekcja kalorii -->
+                        <!-- WIĘKSZA I CZYTELNIEJSZA SEKCJA KALORII -->
+                        <h4 style="margin: 1.5rem 0 1rem; text-align: center; color: var(--avocado-text);">
+                            <i class="fas fa-fire" style="color: #ff6b6b;"></i> Rozkład kalorii
+                        </h4>
+                        
                         <div class="calories-display">
                             <div class="calories-item">
-                                <div>Kalorie z białka</div>
+                                <div class="calories-icon">
+                                    <i class="fas fa-drumstick-bite"></i>
+                                </div>
+                                <div class="calories-label">Kalorie z białka</div>
                                 <div class="calories-value" id="proteinCalories">0 kcal</div>
+                                <div class="calories-macro" id="proteinPercentDisplay">0%</div>
                             </div>
+                            
                             <div class="calories-item">
-                                <div>Kalorie z tłuszczów</div>
+                                <div class="calories-icon">
+                                    <i class="fas fa-bacon"></i>
+                                </div>
+                                <div class="calories-label">Kalorie z tłuszczów</div>
                                 <div class="calories-value" id="fatCalories">0 kcal</div>
+                                <div class="calories-macro" id="fatPercentDisplay">0%</div>
                             </div>
+                            
                             <div class="calories-item">
-                                <div>Kalorie z węglowodanów</div>
+                                <div class="calories-icon">
+                                    <i class="fas fa-bread-slice"></i>
+                                </div>
+                                <div class="calories-label">Kalorie z węglowodanów</div>
                                 <div class="calories-value" id="carbsCalories">0 kcal</div>
+                                <div class="calories-macro" id="carbsPercentDisplay">0%</div>
                             </div>
                         </div>
                         
                         <div class="result-info">
-                            Procentowy rozkład: 
-                            <span id="proteinPercent">0</span>% białka, 
-                            <span id="fatPercent">0</span>% tłuszczy, 
-                            <span id="carbsPercent">0</span>% węglowodanów
+                            <i class="fas fa-chart-pie" style="color: var(--avocado-primary);"></i> 
+                            Całkowite kalorie: <strong id="totalCalories">0</strong> kcal
                         </div>
                     </div>
                 </div>
@@ -833,6 +882,7 @@
             const proteinCalories = Math.round(proteinGrams * 4);
             const fatCalories = Math.round(fatGrams * 9);
             const carbsCalories = Math.round(carbsGrams * 4);
+            const totalCalories = proteinCalories + fatCalories + carbsCalories;
             
             // Update DOM
             document.getElementById('proteinValue').textContent = proteinGrams + 'g';
@@ -843,10 +893,18 @@
             document.getElementById('fatPercent').textContent = fatPercent;
             document.getElementById('carbsPercent').textContent = carbsPercent;
             
-            // Update calories display
+            // Update calories display - nowe elementy
             document.getElementById('proteinCalories').textContent = proteinCalories + ' kcal';
             document.getElementById('fatCalories').textContent = fatCalories + ' kcal';
             document.getElementById('carbsCalories').textContent = carbsCalories + ' kcal';
+            
+            // Update percentages in calories display
+            document.getElementById('proteinPercentDisplay').textContent = proteinPercent + '%';
+            document.getElementById('fatPercentDisplay').textContent = fatPercent + '%';
+            document.getElementById('carbsPercentDisplay').textContent = carbsPercent + '%';
+            
+            // Update total calories
+            document.getElementById('totalCalories').textContent = totalCalories;
             
             document.getElementById('macroResult').style.display = 'block';
         }
