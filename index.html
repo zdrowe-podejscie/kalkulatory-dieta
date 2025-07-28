@@ -312,6 +312,38 @@
             gap: 0.5rem;
             margin-bottom: 0.5rem;
         }
+
+        /* Nowy styl dla wyświetlania kalorii */
+        .calories-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 1.5rem 0;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .calories-item {
+            flex: 1;
+            min-width: 100px;
+            padding: 0.5rem;
+        }
+
+        .calories-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--avocado-primary);
+            margin-top: 0.3rem;
+        }
+
+        /* Styl dla informacji o korekcie kalorii */
+        .calories-adjustment {
+            background-color: #e8f5e9;
+            border-left: 4px solid #2e7d32;
+            padding: 0.8rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -326,13 +358,12 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="nav-links" id="navLinks">
-                <a href="#" class="active"><i class="fas fa-home"></i> Strona główna</a>
+                <a href="https://zdrowepodejscie.blog" class="active"><i class="fas fa-home"></i> Strona główna</a>
                 <a href="#bmi"><i class="fas fa-weight-scale"></i> BMI</a>
                 <a href="#ppm"><i class="fas fa-heart-pulse"></i> PPM</a>
                 <a href="#cpm"><i class="fas fa-fire"></i> CPM</a>
                 <a href="#pal"><i class="fas fa-person-running"></i> PAL</a>
                 <a href="#macro"><i class="fas fa-apple-whole"></i> Makroskładniki</a>
-                <a href="https://zdrowepodejscie.blog"><i class="fas fa-plus-circle"></i> Strona Główna</a>
             </div>
         </div>
     </nav>
@@ -470,7 +501,7 @@
                                 <i class="fas fa-couch" style="color: var(--avocado-primary);"></i>
                                 <div>
                                     <strong>Brak aktywności (PAL: 1.2)</strong>
-                                    <p>Praca siedząca, brak ćwiczeń</p>
+                                    <p>Praca siedzaca, brak ćwiczeń</p>
                                 </div>
                             </div>
                             
@@ -551,6 +582,12 @@
                     <div class="result-container" id="macroResult">
                         <h3>Twój idealny rozkład makroskładników</h3>
                         
+                        <!-- Sekcja z informacją o korekcie kalorii -->
+                        <div class="calories-adjustment" id="caloriesAdjustmentInfo">
+                            <i class="fas fa-info-circle"></i> 
+                            <span id="adjustmentText">Dla wybranego celu nie zastosowano korekty kalorii</span>
+                        </div>
+                        
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
                             <div style="text-align: center;">
                                 <div style="font-size: 2rem; color: var(--avocado-primary);">
@@ -574,6 +611,22 @@
                                 </div>
                                 <div class="result-value" id="carbsValue">0g</div>
                                 <div>Węglowodany</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sekcja kalorii -->
+                        <div class="calories-display">
+                            <div class="calories-item">
+                                <div>Kalorie z białka</div>
+                                <div class="calories-value" id="proteinCalories">0 kcal</div>
+                            </div>
+                            <div class="calories-item">
+                                <div>Kalorie z tłuszczów</div>
+                                <div class="calories-value" id="fatCalories">0 kcal</div>
+                            </div>
+                            <div class="calories-item">
+                                <div>Kalorie z węglowodanów</div>
+                                <div class="calories-value" id="carbsCalories">0 kcal</div>
                             </div>
                         </div>
                         
@@ -693,9 +746,9 @@
             document.getElementById('calories').value = Math.round(cpm);
         }
 
-        // Calculate Macronutrients
+        // Calculate Macronutrients with calorie adjustment
         function calculateMacro() {
-            const calories = parseFloat(document.getElementById('calories').value);
+            let calories = parseFloat(document.getElementById('calories').value);
             const goal = document.getElementById('goal').value;
             const dietType = document.getElementById('dietType').value;
             
@@ -703,6 +756,23 @@
                 alert('Proszę podać dzienne zapotrzebowanie kaloryczne');
                 return;
             }
+            
+            // Adjust calories based on goal
+            let adjustmentText = '';
+            const originalCalories = calories;
+            
+            if (goal === 'lose') {
+                calories = calories - 500; // redukcja o 500 kcal
+                adjustmentText = `Dla redukcji wagi zastosowano korektę: ${originalCalories} kcal → ${calories} kcal (-500 kcal)`;
+            } else if (goal === 'gain') {
+                calories = calories + 500; // zwiększenie o 500 kcal
+                adjustmentText = `Dla przyrostu masy zastosowano korektę: ${originalCalories} kcal → ${calories} kcal (+500 kcal)`;
+            } else {
+                adjustmentText = "Dla utrzymania wagi nie zastosowano korekty kalorii";
+            }
+            
+            // Update adjustment info
+            document.getElementById('adjustmentText').textContent = adjustmentText;
             
             let proteinPercent, fatPercent, carbsPercent;
             
@@ -759,6 +829,11 @@
             const fatGrams = Math.round((calories * fatPercent / 100) / 9);
             const carbsGrams = Math.round((calories * carbsPercent / 100) / 4);
             
+            // Calculate calories from each macronutrient
+            const proteinCalories = Math.round(proteinGrams * 4);
+            const fatCalories = Math.round(fatGrams * 9);
+            const carbsCalories = Math.round(carbsGrams * 4);
+            
             // Update DOM
             document.getElementById('proteinValue').textContent = proteinGrams + 'g';
             document.getElementById('fatValue').textContent = fatGrams + 'g';
@@ -767,6 +842,11 @@
             document.getElementById('proteinPercent').textContent = proteinPercent;
             document.getElementById('fatPercent').textContent = fatPercent;
             document.getElementById('carbsPercent').textContent = carbsPercent;
+            
+            // Update calories display
+            document.getElementById('proteinCalories').textContent = proteinCalories + ' kcal';
+            document.getElementById('fatCalories').textContent = fatCalories + ' kcal';
+            document.getElementById('carbsCalories').textContent = carbsCalories + ' kcal';
             
             document.getElementById('macroResult').style.display = 'block';
         }
