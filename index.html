@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -778,51 +779,48 @@
             
             // Set ratios based on goal and diet type
             if (goal === 'lose') {
-                // Weight loss
-                if (dietType === 'highProtein') {
-                    proteinPercent = 40;
-                    fatPercent = 30;
-                    carbsPercent = 30;
-                } else if (dietType === 'lowCarb') {
-                    proteinPercent = 35;
-                    fatPercent = 40;
-                    carbsPercent = 25;
-                } else {
-                    proteinPercent = 30;
-                    fatPercent = 30;
-                    carbsPercent = 40;
-                }
-            } else if (goal === 'gain') {
-                // Weight gain
-                if (dietType === 'highProtein') {
-                    proteinPercent = 35;
-                    fatPercent = 25;
-                    carbsPercent = 40;
-                } else if (dietType === 'lowCarb') {
-                    proteinPercent = 30;
-                    fatPercent = 40;
-                    carbsPercent = 30;
-                } else {
-                    proteinPercent = 25;
-                    fatPercent = 25;
-                    carbsPercent = 50;
-                }
-            } else {
-                // Weight maintenance
-                if (dietType === 'highProtein') {
-                    proteinPercent = 35;
-                    fatPercent = 25;
-                    carbsPercent = 40;
-                } else if (dietType === 'lowCarb') {
-                    proteinPercent = 30;
-                    fatPercent = 40;
-                    carbsPercent = 30;
-                } else {
-                    proteinPercent = 25;
-                    fatPercent = 30;
-                    carbsPercent = 45;
-                }
-            }
+    if (dietType === 'highProtein') {
+        proteinPercent = 30; // białko
+        carbsPercent = 30;   // tak jak było
+        fatPercent = 100 - proteinPercent - carbsPercent; // nadwyżka w tłuszcze
+    } else if (dietType === 'lowCarb') {
+        proteinPercent = 35;
+        fatPercent = 40;
+        carbsPercent = 25;
+    } else {
+        proteinPercent = 30;
+        fatPercent = 30;
+        carbsPercent = 40;
+    }
+} else if (goal === 'gain') {
+    if (dietType === 'highProtein') {
+        proteinPercent = 25;
+        carbsPercent = 40;
+        fatPercent = 100 - proteinPercent - carbsPercent;
+    } else if (dietType === 'lowCarb') {
+        proteinPercent = 30;
+        fatPercent = 40;
+        carbsPercent = 30;
+    } else {
+        proteinPercent = 25;
+        fatPercent = 25;
+        carbsPercent = 50;
+    }
+} else { // maintain
+    if (dietType === 'highProtein') {
+        proteinPercent = 25;
+        carbsPercent = 40;
+        fatPercent = 100 - proteinPercent - carbsPercent;
+    } else if (dietType === 'lowCarb') {
+        proteinPercent = 30;
+        fatPercent = 40;
+        carbsPercent = 30;
+    } else {
+        proteinPercent = 25;
+        fatPercent = 30;
+        carbsPercent = 45;
+    }
+}
             
             // Calculate grams (1g protein = 4kcal, 1g carbs = 4kcal, 1g fat = 9kcal)
             const proteinGrams = Math.round((calories * proteinPercent / 100) / 4);
@@ -863,3 +861,11 @@
     </script>
 </body>
 </html>
+
+
+zmień proszę
+Wysokobialkowa:
+Zmienić białko, w tłuszcze wrzucić 
+- redukcja 30%
+- utrzymanie 25%
+- przybranie 25%
